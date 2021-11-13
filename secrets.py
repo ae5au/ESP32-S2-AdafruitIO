@@ -1,6 +1,7 @@
 network_keys = {
     'SSID1' : 'NetworkKey1',
-    'SSID2' : 'NetworkKey2'
+    'SSID2' : 'NetworkKey2',
+    'SSID3' : 'MyRealTestNetwork'
 }
 
 secrets = {
