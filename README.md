@@ -1,7 +1,7 @@
 # FeatherS2-Temp2AIO
 FeatherS2 posting to Adafruit IO via ESP32-S2 internal Wi-Fi.
 
-The example is using a TMP117 temperature sensor connected to the Unexpected Maker [FeatherS2](https://feathers2.io/).  Should be trivial to port to any board using the ESP32-S2 such as the [Adafruit ESP32-S2 Feather](https://www.adafruit.com/product/5000).
+The example is using a TMP117 temperature sensor connected to the Unexpected Maker [FeatherS2](https://feathers2.io/).  Should be trivial to port to any board using the ESP32-S2 such as the [Adafruit ESP32-S2 Feather](https://www.adafruit.com/product/5000) or to other sensors based on sample code and libraries for the specific sensor.
 
 Allows for multiple Wi-Fi networks and will reconnect if Wi-Fi connection is lost. Note that it will connect in the order that the networks are placed in secrets.py and will only change to another network if the current connection fails.
 
