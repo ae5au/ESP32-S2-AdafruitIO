@@ -15,6 +15,7 @@ Requires the following libraries from the [Bundle for CircuitPython 7.x](https:/
 Usage:
 1. Copy the necessary libraries to the 'lib' folder on CircuitPython board.
 2. Create secrets.py file with your network and Adafruit IO credentials. Use secrets-example.py as a template. Place it on your CircuitPython board.
-3. Copy code.py to CircuitPython board.
+3. Add new feed on your Adafruit IO account and update secrets.py with key in "aio_feed".
+4. Copy code.py to CircuitPython board.
 
 Suggestions for improvement are appreciated!
