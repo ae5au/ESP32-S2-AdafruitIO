@@ -9,6 +9,7 @@ Requires the following libraries from the [Bundle for CircuitPython 7.x](https:/
 - adafruit_bus_device
 - adafruit_io
 - adafruit_register
+- adafruit_dotstar
 - adafruit_requests
 - adafruit_tmp117
 
