@@ -23,6 +23,13 @@ elif board.board_id == 'adafruit_feather_esp32s2':
     import neopixel
     addr_led = neopixel.NeoPixel(board.NEOPIXEL, 100)
     addr_led[0] = status_magenta
+    # Initial support for board in 7.1.0 Beta 0 seems to have this inverted.
+    # This probably won't be necessary in next beta release as it seems to be fixed in a more recent commit.
+    import digitalio
+    i2c_power = digitalio.DigitalInOut(board.I2C_POWER)
+    i2c_power.direction = digitalio.Direction.OUTPUT
+    i2c_power = True
+
 
 # Sensor initialization
 import adafruit_tmp117
