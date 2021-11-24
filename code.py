@@ -1,13 +1,10 @@
 import board
 import time
-import adafruit_dotstar
 import wifi
 import ssl
 import adafruit_requests
 import socketpool
 from adafruit_io.adafruit_io import IO_HTTP, AdafruitIO_RequestError
-import adafruit_tmp117
-from analogio import AnalogIn
 
 status_red = (255, 0, 0, 0.5)
 status_green = (0, 255, 0, 0.5)
@@ -16,11 +13,28 @@ status_magenta = (128, 0, 255, 0.5)
 status_off = (0, 0, 0, 0)
 aio_connected = False
 
-dotstar = adafruit_dotstar.DotStar(board.APA102_SCK, board.APA102_MOSI, 1, brightness=0.5, auto_write=True)
-dotstar[0] = status_magenta
+if board.board_id == 'unexpectedmaker_feathers2':
+    import adafruit_dotstar
+    addr_led = adafruit_dotstar.DotStar(board.APA102_SCK, board.APA102_MOSI, 1, brightness=0.5, auto_write=True)
+    addr_led[0] = status_magenta
+    from analogio import AnalogIn
+    light_sensor = AnalogIn(board.AMB)
+elif board.board_id == 'adafruit_feather_esp32s2':
+    import neopixel
+    addr_led = neopixel.NeoPixel(board.NEOPIXEL, 100)
+    addr_led[0] = status_magenta
+    # Initial support for board in 7.1.0 Beta 0 seems to have this inverted.
+    # This probably won't be necessary in next beta release as it seems to be fixed in a more recent commit.
+    import digitalio
+    i2c_power = digitalio.DigitalInOut(board.I2C_POWER)
+    i2c_power.direction = digitalio.Direction.OUTPUT
+    i2c_power = True
+
+
+# Sensor initialization
+import adafruit_tmp117
 i2c = board.I2C()  # uses board.SCL and board.SDA
 tmp117 = adafruit_tmp117.TMP117(i2c)
-light_sensor = AnalogIn(board.AMB)
 
 try:
     from secrets import secrets
@@ -41,7 +55,7 @@ while True:
             try:
                 print("Trying:", network, end=': ')
                 wifi.radio.connect(network, network_keys[network])
-                dotstar[0] = status_yellow
+                addr_led[0] = status_yellow
                 print("Connected!")
                 break
             except:
@@ -60,23 +74,24 @@ while True:
         try:
             temperature_feed = io.get_feed(secrets["aio_feed"])
             aio_connected = True
-            dotstar[0] = status_green
+            addr_led[0] = status_green
             print("Connected!")
             # break
         except:
             aio_connected = False
             print("Failed! Waiting...")
+            # raise
             time.sleep(10)
-
-    temperature = tmp117.temperature
-    print("T:", temperature, "Light:", light_sensor.value, end=' ... ')
-    try:
-        dotstar[0] = status_off
-        io.send_data(temperature_feed["key"], temperature)
-        dotstar[0] = status_green
-        print("Sent!")
-    except:
-        dotstar[0] = status_yellow
-        print("Failed! Waiting...")
-        time.sleep(20)
-    time.sleep(10)
+    if aio_connected:
+        temperature = tmp117.temperature
+        print("T:", temperature, end=' ... ')
+        try:
+            addr_led[0] = status_off
+            io.send_data(temperature_feed["key"], temperature)
+            addr_led[0] = status_green
+            print("Sent!")
+        except:
+            addr_led[0] = status_yellow
+            print("Failed! Waiting...")
+            time.sleep(20)
+        time.sleep(10)
