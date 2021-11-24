@@ -1,7 +1,11 @@
-# FeatherS2-AdafruitIO
-FeatherS2 posting to Adafruit IO via ESP32-S2 internal Wi-Fi.
+# ESP32-S2-AdafruitIO
+ESP32-S2 posting to Adafruit IO via internal Wi-Fi.
 
-The example is using a TMP117 temperature sensor connected to the Unexpected Maker [FeatherS2](https://feathers2.io/).  Should be trivial to port to any board using the ESP32-S2 such as the [Adafruit ESP32-S2 Feather](https://www.adafruit.com/product/5000) or to other sensors based on sample code and libraries for the specific sensor.
+Currently supports the following boards:
+- Unexpected Maker [FeatherS2](https://feathers2.io/)
+- Adafruit [ESP32-S2 Feather](https://www.adafruit.com/product/5000)
+
+The example is using a TMP117 temperature sensor connected via I2C.  Should be trivial to port to any board using the ESP32-S2 or to other sensors based on sample code and libraries for the specific sensor.
 
 Allows for multiple Wi-Fi networks and will reconnect if Wi-Fi connection is lost. Note that it will connect in the order that the networks are placed in secrets.py and will only change to another network if the current connection fails.
 
@@ -9,9 +13,12 @@ Requires the following libraries from the [Bundle for CircuitPython 7.x](https:/
 - adafruit_bus_device
 - adafruit_io
 - adafruit_register
-- adafruit_dotstar
 - adafruit_requests
-- adafruit_tmp117
+- adafruit_tmp117 (or other sensor libraries as needed)
+- For Adafruit ESP32-S2
+    - neopixel
+- For Unexpected Maker FeatherS2
+    - adafruit_dotstar
 
 Usage:
 1. Copy the necessary libraries to the 'lib' folder on CircuitPython board.
