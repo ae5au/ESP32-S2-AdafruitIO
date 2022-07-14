@@ -12,6 +12,7 @@ Allows for multiple Wi-Fi networks and will reconnect if Wi-Fi connection is los
 Requires the following libraries from the [Bundle for CircuitPython 7.x](https://circuitpython.org/libraries):
 - adafruit_bus_device
 - adafruit_io
+- adafruit_minimqtt
 - adafruit_register
 - adafruit_requests
 - adafruit_tmp117 (or other sensor libraries as needed)
