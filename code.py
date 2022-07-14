@@ -29,12 +29,21 @@ elif board.board_id == 'adafruit_feather_esp32s2':
     i2c_power = digitalio.DigitalInOut(board.I2C_POWER)
     i2c_power.direction = digitalio.Direction.OUTPUT
     i2c_power = True
-
+elif board.board_id =='adafruit_feather_esp32s3_4mbflash_2mbpsram':
+    import neopixel
+    addr_led = neopixel.NeoPixel(board.NEOPIXEL, 100)
+    addr_led[0] = status_magenta
+    # Initial support for board in 7.1.0 Beta 0 seems to have this inverted.
+    # This probably won't be necessary in next beta release as it seems to be fixed in a more recent commit.
+    import digitalio
+    i2c_power = digitalio.DigitalInOut(board.I2C_POWER)
+    i2c_power.direction = digitalio.Direction.OUTPUT
+    i2c_power = True
 
 # Sensor initialization
-import adafruit_tmp117
-i2c = board.I2C()  # uses board.SCL and board.SDA
-tmp117 = adafruit_tmp117.TMP117(i2c)
+# import adafruit_tmp117
+# i2c = board.I2C()  # uses board.SCL and board.SDA
+# tmp117 = adafruit_tmp117.TMP117(i2c)
 
 try:
     from secrets import secrets
@@ -83,7 +92,8 @@ while True:
             # raise
             time.sleep(10)
     if aio_connected:
-        temperature = tmp117.temperature
+        # temperature = tmp117.temperature
+        temperature = 101
         print("T:", temperature, end=' ... ')
         try:
             addr_led[0] = status_off
